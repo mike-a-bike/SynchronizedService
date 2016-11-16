@@ -6,7 +6,6 @@ import ch.zweivelo.demo.service.StandardBusinessService;
 import ch.zweivelo.demo.service.StandardHelperService;
 import ch.zweivelo.demo.service.SynchronizedHelperService;
 import ch.zweivelo.demo.service.SynchronizedService;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
