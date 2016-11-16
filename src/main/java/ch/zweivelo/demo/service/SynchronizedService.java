@@ -1,5 +1,6 @@
 package ch.zweivelo.demo.service;
 
+import ch.zweivelo.demo.rest.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,37 +22,43 @@ public class SynchronizedService implements BusinessService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SynchronizedService.class);
 
     @Override
-    public synchronized String method1(String in) {
-        LOGGER.info(Thread.currentThread().getName() + ": enter method1 in SynchronizedService");
-        Instant start = Instant.now();
+    public String method1(String in) {
+        synchronized (Controller.class) {
+            LOGGER.info(Thread.currentThread().getName() + ": enter method1 in SynchronizedService");
+            Instant start = Instant.now();
 
-        delay();
+            delay();
 
-        LOGGER.info(Thread.currentThread().getName() + ": leave method1 in SynchronizedService [" + Duration.between(start, Instant.now()).getSeconds() + "]");
+            LOGGER.info(Thread.currentThread().getName() + ": leave method1 in SynchronizedService [" + Duration.between(start, Instant.now()).getSeconds() + "]");
 
-        return in;
+            return in;
+        }
     }
 
     @Override
-    public synchronized String method2(String in) {
-        LOGGER.info(Thread.currentThread().getName() + ": enter method2 in SynchronizedService");
-        Instant start = Instant.now();
+    public String method2(String in) {
+        synchronized (Controller.class) {
+            LOGGER.info(Thread.currentThread().getName() + ": enter method2 in SynchronizedService");
+            Instant start = Instant.now();
 
-        delay();
+            delay();
 
-        LOGGER.info(Thread.currentThread().getName() + ": leave method2 in SynchronizedService [" + Duration.between(start, Instant.now()).getSeconds() + "]");
+            LOGGER.info(Thread.currentThread().getName() + ": leave method2 in SynchronizedService [" + Duration.between(start, Instant.now()).getSeconds() + "]");
 
-        return in;
+            return in;
+        }
     }
 
-    private synchronized void delay() {
-        LOGGER.info(Thread.currentThread().getName() + ": enter delay");
-        try {
-            Thread.sleep(10_000L + RANDOM.nextInt(10) * 1_000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void delay() {
+        synchronized (Controller.class) {
+            LOGGER.info(Thread.currentThread().getName() + ": enter delay");
+            try {
+                Thread.sleep(10_000L + RANDOM.nextInt(10) * 1_000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            LOGGER.info(Thread.currentThread().getName() + ": leave delay");
         }
-        LOGGER.info(Thread.currentThread().getName() + ": leave delay");
     }
 
 }

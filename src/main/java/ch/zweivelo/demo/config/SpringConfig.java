@@ -1,7 +1,10 @@
 package ch.zweivelo.demo.config;
 
 import ch.zweivelo.demo.service.BusinessService;
+import ch.zweivelo.demo.service.HelperService;
 import ch.zweivelo.demo.service.StandardBusinessService;
+import ch.zweivelo.demo.service.StandardHelperService;
+import ch.zweivelo.demo.service.SynchronizedHelperService;
 import ch.zweivelo.demo.service.SynchronizedService;
 
 import org.springframework.context.annotation.Bean;
@@ -28,6 +31,18 @@ public class SpringConfig {
     @Profile("!SYNC")
     public BusinessService standardBusinessService() {
         return new StandardBusinessService();
+    }
+
+    @Bean
+    @Profile("SYNC")
+    public HelperService synchronizedHelperServie() {
+        return new SynchronizedHelperService();
+    }
+
+    @Bean
+    @Profile("!SYNC")
+    public HelperService standardHelperServie() {
+        return new StandardHelperService();
     }
 
 }

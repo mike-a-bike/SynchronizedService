@@ -2,6 +2,7 @@ package ch.zweivelo.demo.rest;
 
 import ch.zweivelo.demo.service.BusinessService;
 
+import ch.zweivelo.demo.service.HelperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,12 @@ public class Controller {
     private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 
     private final BusinessService service;
+    private final HelperService helperService;
 
     @Autowired
-    public Controller(BusinessService service) {
+    public Controller(BusinessService service, HelperService helperService) {
         this.service = service;
+        this.helperService = helperService;
     }
 
     @GetMapping("hello")
@@ -52,6 +55,12 @@ public class Controller {
         final String result = service.method2("goodbye from thread: " + Thread.currentThread().getName());
 
         LOGGER.info(Thread.currentThread().getName() + ": leaving method 'sayGoodbye' [" + Duration.between(start, Instant.now()).getSeconds() + "]");
+        return result;
+    }
+
+    @GetMapping("help")
+    public String helperCall() {
+        final String result = helperService.helperMethod("HELP!!!!");
         return result;
     }
 
